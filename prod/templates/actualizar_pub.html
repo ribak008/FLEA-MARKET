@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="card m-5" style="width: 18rem;">
+                <img src="{{producto.imagen.url}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">{{producto.nombre}}</h5>
+                  <p class="card-text">{{producto.descripcion}}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">Precio: ${{producto.precio}}</li>
+                  <li class="list-group-item">Categoria: {{producto.categoria}}</li>
+                  <li class="list-group-item">Subido por: {{producto.user.username}}</li>
+                </ul>
+                <div class="card-body">
+                  <a href="#" class="card-link">Card link</a>
+                  <a href="#" class="card-link">Another link</a>
+                </div>
+              </div>
+        </div>
+        <div class="col">
+            <section class="m-5">
+                <main>
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{form.as_p}}
+                        <button>Actualizar</button>
+                        {{error}}
+                    </form>
+                    
+                    <form action="{% url 'eliminar_pub' producto.id %}" method="POST">
+                        {% csrf_token %}
+                        <button>Eliminar</button>
+                        {{error}}
+                    </form>
+                </main>
+            </section>
+        </div>
+    </div>
+</div>
+
+<div>
+
+</div>
+
+
+{% endblock %}

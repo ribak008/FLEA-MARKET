@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container d-flex justify-content-center">
+    <h1>Mis publicaciones</h1>
+</div>
+
+
+
+<div class="container text-center">
+    <div class="row">
+        {% for producto in productos %}
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+            <div class="card m-3" style="width: 18rem;">
+                <img src="{{ producto.imagen.url }}" class="card-img-top" alt="imagen_producto">
+                <div class="card-body">
+                  <h5 class="card-title">{{ producto.nombre }}</h5>
+                  <p class="card-body">{{producto.descripcion}}</p>
+                  <h5 class="text-success">Precio: {{producto.precio}}</h5>
+                  <h5 class="text-secondary">Categoria: {{producto.categoria}}</h5>
+                  <a href="{% url 'actualizar_pub' producto.id %}" class="btn btn-dark">Actualizar</a>
+                </div>
+              </div>
+        </div>
+        {% endfor %}  
+    </div>
+  </div>
+
+{% endblock %}
