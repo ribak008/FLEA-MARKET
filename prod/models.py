@@ -19,3 +19,19 @@ class Producto(models.Model):
     
     def __str__(self):
             return self.nombre + '- Por: ' + self.user.username
+        
+
+class Carrito(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    creado = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Carrito de {self.usuario.username}"
+
+class ElementoCarrito(models.Model):
+    carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE, related_name='elementos')
+    producto = models.ForeignKey('Producto', on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.cantidad} x {self.producto.nombre}"      

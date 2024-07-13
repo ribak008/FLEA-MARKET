@@ -31,7 +31,9 @@ urlpatterns = [
     path('home/<int:pub_id>/',views.detalle_pub,name='detalle_pub'),
     path('actualizar_pub/<int:pub_id>/',views.actualizar_pub,name='actualizar_pub'),
     path('actualizar_pub/<int:pub_id>/eliminar',views.eliminar_pub,name='eliminar_pub'),
-    
+    path('carrito/', views.ver_carrito, name='ver_carrito'),
+    path('carrito/agregar/<int:producto_id>/', views.agregar_al_carrito, name='agregar_al_carrito'),
+    path('carrito/eliminar/<int:elemento_id>/', views.eliminar_del_carrito, name='eliminar_del_carrito'),
 ]
 
 if settings.DEBUG:

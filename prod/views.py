@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login,logout,authenticate
 from .forms import PublicacionForm
-from .models import Producto
+from .models import Producto,Carrito, ElementoCarrito
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
@@ -112,3 +112,29 @@ def crear_publicacion(request):
                 'form': form,
                 'error': 'Los datos no son válidos'
             })          
+
+@login_required
+def agregar_al_carrito(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    if producto.user == request.user:
+        messages.error(request, "No puedes comprar tus propios productos.")
+        return redirect('home')
+    
+    carrito, created = Carrito.objects.get_or_create(usuario=request.user)
+    elemento, created = ElementoCarrito.objects.get_or_create(carrito=carrito, producto=producto)
+    if not created:
+        elemento.cantidad += 1
+        elemento.save()
+    return redirect('ver_carrito')
+
+@login_required
+def ver_carrito(request):
+    carrito, created = Carrito.objects.get_or_create(usuario=request.user)
+    total = sum(elemento.producto.precio * elemento.cantidad for elemento in carrito.elementos.all())
+    return render(request, 'carrito.html', {'carrito': carrito, 'total': total})
+@login_required
+def eliminar_del_carrito(request, elemento_id):
+    elemento = get_object_or_404(ElementoCarrito, id=elemento_id)
+    if elemento.carrito.usuario == request.user:
+        elemento.delete()
+    return redirect('ver_carrito')
