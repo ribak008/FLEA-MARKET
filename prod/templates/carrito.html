@@ -6,6 +6,7 @@
     <title>Carrito de Compras</title>
 </head>
 <body>
+
     <h1>Carrito de Compras</h1>
     <ul>
         {% for elemento in carrito.elementos.all %}
@@ -16,7 +17,9 @@
         {% endfor %}
     </ul>
     <h2>Total: ${{ total }}</h2>
-    <a href="{% url 'home' %}">Seguir Comprando</a>
+    <button class="btn bg-dark"><a href="{% url 'home' %}">Seguir Comprando</a></button>
+
+
 </body>
 </html>
 {% endblock %}

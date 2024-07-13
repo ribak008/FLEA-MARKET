@@ -117,7 +117,6 @@ def crear_publicacion(request):
 def agregar_al_carrito(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
     if producto.user == request.user:
-        messages.error(request, "No puedes comprar tus propios productos.")
         return redirect('home')
     
     carrito, created = Carrito.objects.get_or_create(usuario=request.user)
